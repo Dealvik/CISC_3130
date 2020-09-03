@@ -1,3 +1,3 @@
-this is the first lab of CISC 3130
+### Lab 1
 
 quickly displays (insert more here)
