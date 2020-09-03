@@ -1,3 +1,3 @@
 ### Lab 1
 
-quickly displays (insert more here)
+reads through a file and records every unique words' occurence
