@@ -1,16 +1,21 @@
 package com.company;
 
-public class TopStreamingArtists {
-    private SoftedArtist head;
+import java.io.PrintWriter;
 
+public class TopStreamingArtists {
+    private SortedArtist head;
+
+    TopStreamingArtists() {
+        insertLast(".", 0);
+    }
     void insertLast(String name, int songs) {
-        SoftedArtist newNode = new SoftedArtist(name, songs);
+        SortedArtist newNode = new SortedArtist(name, songs);
         newNode.next = null;
 
         if (head == null)
             head = newNode;
         else {
-            SoftedArtist n = head;
+            SortedArtist n = head;
             while (n.next != null) {
                 n = n.next;
             }
@@ -19,15 +24,15 @@ public class TopStreamingArtists {
     }
 
     void insertSorted(String name, int songs) {
-        SoftedArtist newNode = new SoftedArtist(name, songs);
+        SortedArtist newNode = new SortedArtist(name, songs);
         newNode.next = null;
 
         if (head == null)
             head = newNode;
         else {
-            SoftedArtist n = head;
+            SortedArtist n = head;
             while (n.next != null) {
-                if (n.next.songs > newNode.songs) {
+                if (n.next.name.compareToIgnoreCase(newNode.name) > 0) {
                     newNode.next = n.next;
                     n.next = newNode;
                     return;
@@ -39,35 +44,49 @@ public class TopStreamingArtists {
             n.next = newNode;
         }
     }
-    void displayValues() {
-        SoftedArtist current = head;
-        while (current.next != null) {
-            System.out.println(current.name + " : " + current.songs);
-            current = current.next;
+
+    // TODO make delete work and ge
+    void delete(SortedArtist artist) {
+        SortedArtist n = head;
+        while (n.next != null) {
+            if (n.name == artist.name) {
+                n.name = null;
+                n.songs = -1;
+
+                n.next = n.next.next;
+            }
+            n = n.next;
         }
-        System.out.println(current.name + " : " + current.songs);
     }
 
+    void displayValues(PrintWriter writer) {
+        boolean displayedFalse = false;
+        SortedArtist current = head;
+        while (current.next != null) {
+            if (displayedFalse == true) {
+                System.out.println(current.name + " : " + current.songs);
+                writer.println(current.name + " songs: " + current.songs);
+            }
+            current = current.next;
+            displayedFalse = true;
+        }
+        System.out.println(current.name + " : " + current.songs);
+        delete(head);
+    }
 
     void setName(String name) {
         name = name;
     }
     boolean isEmpty() { return head == null; }
-//    Object getItem(int index) {
-//        for (int i = 0; i < index; i++) {
-//
-//        }
-//    }
-//    public void incrementSongs() {
-//        this.songs++;
-//    }
 
-    class SoftedArtist {
+
+
+    class SortedArtist {
         private int songs;
         private String name;
-        SoftedArtist next;
+        SortedArtist next;
 
-        SoftedArtist(String name, int songs) {
+        SortedArtist(String name, int songs) {
             this.songs = songs;
             this.name = name;
         }
